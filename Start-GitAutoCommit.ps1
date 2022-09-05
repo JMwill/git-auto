@@ -40,7 +40,10 @@ function Start-GitAutoCommitAndPush {
         git commit -m "auto commit"
     }
     if ($PushToServer) {
-        git push $Server $Branch
+        [string] $output = (& git push $Server $Branch 2>&1)
+        if ($output.Contains("git pull")) {
+            git pull
+        }
     }
 }
 
